@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}ShoppingList{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+{% if user.is_authenticated %}
+
+<h3> {% trans "Your Plan" %}: </h3>
+
+<h3> {% trans "Your personal information"%} </h3>
+
+<div class="profile">
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="{% trans 'Change' %}">
+</form>
+
+</div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+
+{% else %}
+{% trans "You are not logged in." %}
+{% endif %}
+
+{% endblock %}

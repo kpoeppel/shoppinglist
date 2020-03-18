@@ -1,0 +1,68 @@
+<!doctype html>
+{% load i18n %}
+{% load sass_tags %}
+{% load static %}
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Korbinian Poeppel">
+    <meta name="description" content="ShoppingList">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+
+
+    <link href="{% sass_src 'css/style.scss' %}" rel="stylesheet" type="text/css">
+    {% block css %}{% endblock %}
+    <!--analytics-->
+  </head>
+
+  <body>
+      <header class="card-panel teal lighten-2">
+      <!--
+        <div class="BildungIcon">
+          <img src="https://img.icons8.com/ios/50/000000/school.png">
+        </div>
+      -->
+
+        <a href="/"><h1>ShoppingList</h1></a>
+
+      </header>
+      <!-- <div id="navicon">&#9776;</div> -->
+      <nav>
+            <ul id='Navigation' class='row card-panel teal lighten-2'>
+              <li class=''>
+                <a target='_top' href="/shoppinglist">{% trans "Enter ShoppingList"%}</a>
+              </li>
+              <li class=''>
+                <a target='_top' href="/">{% trans "Idea"%}</a>
+              </li>
+                {% if user.is_authenticated %}
+              <li class=''>
+                <a target='_top' href="/accounts/profile">{% trans "My Profile" %}</a>
+              </li>
+              <li class=''>
+                <a target='_top' href="/accounts/logout">{% trans "Logout"%}</a>
+              </li>
+                {% else %}
+              <li class=''>
+                <a target='_top' href="/accounts/login">{% trans "Login"%}</a>
+              </li>
+              <li class=''>
+                <a target='_top' href="/accounts/register">{% trans "Register as Volunteer"%}</a>
+              </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+      </div>
+
+  </body>
+
+
+</html>

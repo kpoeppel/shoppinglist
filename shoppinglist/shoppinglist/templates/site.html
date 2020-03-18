@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}ShoppingList{% endblock %}
+
+{% block main %}
+
+
+<div class="index-grid">
+{% if site %}
+  <h2>{{site.name}}</h2>
+
+  {% if site.roomsdistributed %}
+  <h3>{% trans "Rooms" %}</h3>
+        {% if rooms_events %}
+        {% for room, scheduled_events in rooms_events %}
+            <div class="index-cell" id="room">
+            {% include "room-overview.html" %}
+            <div class="index-cell" id="event">
+              {% if events %}
+              {% for scheduled_event in scheduled_events %}
+                {% include "scheduled-event-overview.html" %}
+              {% endfor %}
+              {% else %}
+               -
+              {% endif %}
+            </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>{% trans "There are no sublocations for this Bildungsfeiertag site." %}</p>
+        {% endif %}
+  {% else %}
+    {% if events %}
+    {% for event in events %}
+      <div class="index-cell" id="event">
+          {% include "event-overview.html" %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>{% trans "There are no subevent propositions for this Bildungsfeiertag site yet." %}</p>
+      {% endif %}
+
+  {% if user.is_authenticated %}
+
+  {% if not site.callforeventsclosed %}
+  <a href="/site/{{site.name}}/event_create">
+  <div class="index-cell" id="event">
+    {% trans "Propose a new subevent." %}
+  </div>
+  </a>
+  {% endif %}
+
+  {% if not helper %}
+  <a href="/site/{{site.name}}/helper-information">
+  <div class="index-cell" id="helper">
+    {% trans "Apply as background helper." %}
+  </div>
+  {% else %}
+  <a href="/site/{{site.name}}/helper-information">
+  <div class="index-cell" id="helper">
+    {% trans "Info for background helpers." %}
+  </div>
+  </a>
+  {% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+</div>
+{% endblock %}

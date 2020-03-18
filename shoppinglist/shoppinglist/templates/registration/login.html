@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="register">
+    {{ form.as_p }}
+  </div>
+  <input type="submit" value="Einloggen">
+
+</form>
+
+<br>
+<a href='/accounts/password_reset/'>{% trans "Forgot password?" %}</a>
+
+{% endblock %}

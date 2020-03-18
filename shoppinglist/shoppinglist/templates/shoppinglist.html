@@ -1,0 +1,138 @@
+      {% extends "base.html" %}
+      {% load i18n %}
+      {% load crispy_forms_tags %}
+
+      {% block title %}ShoppingList - Order{% endblock %}
+
+      {% block main %}
+
+      <form id="shoppingform" action="" method="post">
+        {% csrf_token %}
+      <h3> Ihre Daten: </h3>
+      <div class="customer">
+      {{ form.name.errors }}
+      <label for="{{ form.name.id_for_label }}">Name:</label>
+      {{ form.name }}
+      <br>
+      {{ form.adress.errors }}
+      <label for="{{ form.address.id_for_label }}">Adresse:</label>
+      {{ form.address }}
+      <br>
+      {{ form.number.errors }}
+      <label for="{{ form.number.id_for_label }}" >Telefonnummer:</label>
+      {{ form.number }}
+      <br>
+      {{ form.email.errors }}
+      <label for="{{ form.email.id_for_label }}" >Email:</label>
+      {{ form.email }}
+      <br>
+      <br>
+      </div>
+      <div id="orders" style="display:none;"> {{form.items}} </div>
+
+      </form>
+
+      <h3> Ihre Bestellung: </h3>
+      <div class="shopping">
+      <br>
+      <label for="stores">Geschaeft:</label>
+      <select id="stores">
+        {% for store in stores %}
+          <option value= {{store.id}} > {{store}} </option>
+        {% endfor %}
+      </select>
+      <button onclick="addStore()" type="button">Hinzufuegen</button>
+
+
+      <br>
+      <br>
+      <div id="selected-stores" class="shoppinglist">
+
+      </div>
+
+      <input type="submit" value="Bestellung Absenden" form="shoppingform">
+      </div>
+      <div id="noscript" visibility="visible"> Bitte schalten Sie Javascript ein! </div>
+
+      <script>
+        var observe;
+        document.getElementById("noscript").style.visibility = "hidden";
+
+        if (window.attachEvent) {
+            observe = function (element, event, handler) {
+                element.attachEvent('on'+event, handler);
+            };
+        }
+        else {
+            observe = function (element, event, handler) {
+                element.addEventListener(event, handler, false);
+            };
+        }
+
+        function max(a, b){
+          return ((a) > (b))?(a):(b);
+        }
+
+        function check(){
+          var text = "";
+          var selStores = document.getElementById('selected-stores');
+          for (var i = 0; i < selStores.children.length; i++){
+            text += selStores.children[i].id + ":\n";
+            console.log(selStores.children[i]);
+            text += selStores.children[i].children[1].value + "\n\n";
+          }
+          document.getElementById("orders").children[0].value = text;
+        }
+
+        function init (elem) {
+            function resize () {
+                elem.style.height = 'auto';
+                if (elem.scrollHeight < 10){
+                  elem.style.height = "1.5em";
+                }
+                else{
+                  elem.style.height = elem.scrollHeight+'px';
+                }
+                check();
+            }
+            /* 0-timeout to get the already changed text */
+            function delayedResize () {
+                window.setTimeout(resize, 0);
+                check();
+
+            }
+            observe(elem, 'change',  resize);
+            observe(elem, 'cut',     delayedResize);
+            observe(elem, 'paste',   delayedResize);
+            observe(elem, 'drop',    delayedResize);
+            observe(elem, 'keydown', delayedResize);
+
+            elem.focus();
+            elem.select();
+            resize();
+        }
+
+        function addStore(){
+          var store = document.getElementById('stores')
+          if (store.length > 0){
+            var selStores = document.getElementById('selected-stores');
+            var newStore = document.createElement("div");
+            var label = document.createElement("label");
+            var textInput = document.createElement("textarea");
+            textInput.rows = 1;
+            textInput.style="height:1em;";
+            init(textInput);
+            var labelText = document.createTextNode(store.options[store.selectedIndex].text);
+            newStore.id = "store-" + store.value;
+            label.appendChild(labelText);
+            newStore.appendChild(label);
+            newStore.appendChild(textInput);
+            selStores.appendChild(newStore);
+            store.remove(store.selectedIndex);
+            document.getElementById('selected-stores').appendChild(newStore);
+          }
+        }
+
+      </script>
+
+      {% endblock %}

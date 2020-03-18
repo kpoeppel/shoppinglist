@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}ShoppingList{% endblock %}
+
+{% block main %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+{% if user.is_authenticated %}
+{% if helper %}
+<form action="" method="post">
+    {% csrf_token %}
+    {% trans "Do you want to sign out as helper for the ShoppingList?" %}
+    <input type="submit" value="{%trans 'Yes' %}" name="Yes">
+</form>
+
+{% elif user.phone_number and user.first_name and user.last_name %}
+<form action="" method="post">
+    {% csrf_token %}
+    {% trans "Do you want to be a background helper at the ShoppingList?" %}
+    <input type="submit" value="{%trans 'Yes' %}" name="Yes">
+</form>
+
+{% else %}
+{% trans "If you want to help us in the background, please give us your full name and mobile phone number %} <a href="/accounts/profile">{% trans "here" %}</a>.
+
+{% endif %}
+{% endif %}
+
+<a href="/site/{{site.name}}">
+<div class="index-cell" id="site">
+{% trans "Back to the site."%}
+</div>
+</a>
+
+{% endblock %}

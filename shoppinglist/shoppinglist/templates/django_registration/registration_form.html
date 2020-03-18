@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+
+<form action="" method="post">
+    <h3> {% trans "Als Freiwilliger registrieren" %} </h3>
+    {% csrf_token %}
+    <div class="register">
+    {{ form.as_p }}
+    <input type="submit" value="{% trans 'Submit' %}">
+  </div>
+
+</form>
+
+{% endblock %}

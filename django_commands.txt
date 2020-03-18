@@ -1,0 +1,72 @@
+django-admin startproject mysite                # Setup
+python manage.py runserver                      # Run Server
+python manage.py startapp appname               # start a new app
+mysite/settings.py				# edit basic configuration, e.g. database engine
+mysite/appname/models.py		        # file for new data model
+python manage.py makemigrations appname         # create migrations from new data model
+python manage.py sqlmigrate appname mignumber   # view the sql-code of that migration
+python manage.py check				# check if everythings alright with the code
+python manage.py migrate			# apply the migration
+python manage.py shell				# run a python shell in which you can use and edit the data model entries
+python manage.py createsuperuser		# create a superuser with a certain admin name
+http://127.0.0.1:8000/admin/			# view the admin site
+mysite/appname/views.py				# create different views of your system
+mysite/appname/urls.py				# connect a view to a url
+python manage.py migrate --run-syncdb   # also change db structure for migration
+
+Code Snippets:
+
+Make app modifiable by admin
+:appname/admin.py
+from django.contrib import admin
+from .models import Question
+admin.site.register(Question)
+
+Create html templates to be filled with data from database:
+:appname/templates/polls/index.html
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+
+View a filled template:
+:appname/views.py
+from django.http import HttpResponse
+from django.template import loader
+from .models import Question
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    template = loader.get_template('polls/index.html')
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+Faster rendering:
+:appname/views.py
+from django.shortcuts import render
+from .models import Question
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    context = {'latest_question_list': latest_question_list}
+    return render(request, 'polls/index.html', context)
+
+
+Raising a 404 error:
+:polls/views.py
+from django.http import Http404
+from django.shortcuts import render
+from .models import Question
+# ...
+def detail(request, question_id):
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', {'question': question})

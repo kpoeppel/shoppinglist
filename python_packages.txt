@@ -1,0 +1,13 @@
+django
+django-allauth
+django-appconf
+django-compressor
+django-htmlmin
+django-material
+django-money
+django-phonenumber-field
+django-registration
+django-sass-processor
+django-user-accounts
+phonenumbers
+django-crispy-forms

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}ShoppingList - Order{% endblock %}
+
+{% block main %}
+
+<div class="order">
+  <label for="id" style="font-weight: bold;">BESTELLUNGSNUMMER:</label>
+  <div id="id">
+    {{ shoppinglist.id }}
+  </div>
+  <br>
+  <label for="name">Name:</label>
+  <div id="name">
+    &nbsp{{ shoppinglist.name }}
+  </div>
+  <br>
+  <label for="adress">Adresse:</label>
+  <div id="adress">
+    &nbsp{{ shoppinglist.address }}
+  </div>
+  <br>
+  <label for="email">Email:</label>
+  <div id="email">
+    &nbsp{{ shoppinglist.email }}
+  </div>
+  <br>
+  <label for="number">Telefonnummer:</label>
+  <div id="number">
+    &nbsp{{ shoppinglist.number }}
+  </div>
+  <br>
+  <br>
+</div>
+<div>
+<div>Ihre Bestellungen:</div>
+<br>
+<div style="background-color:#DDDDDD;white-space: pre-line;">{{ shoppinglist.items }}
+</div>
+</div>
+
+<input type=button value="Zurück" onClick="javascript:history.go(-1);">
+<form id="shoppingform" action="" method="post">
+  <input type="submit" value="Bestellung Abschicken" form="shoppingform">
+</form>
+
+{% endblock %}

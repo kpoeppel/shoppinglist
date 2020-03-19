@@ -28,6 +28,7 @@ urlpatterns = [
     path(r"admin/", admin.site.urls),
     path(r"", views.about_view),
     path(r"shoppinglist", views.shoppinglist_view),
+    path(r"order-<str:order_id>", views.order_view),
     path(r"accounts/register/", views.register_view.as_view()),
     url(r'^accounts/', include('django_registration.backends.activation.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),

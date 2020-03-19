@@ -162,6 +162,36 @@ p, li {
        width: 120px;
 }
 
+.order div {
+     margin-top: 5px;
+     margin-bottom: 5px;
+     display:inline-block;
+     *display: inline;     /* for IE7*/
+     zoom:1;              /* for IE7*/
+     vertical-align:left;
+     margin-left:20px
+ }
+
+ .order label {
+       display:inline-block;
+       *display: inline;     /* for IE7*/
+       zoom:1;              /* for IE7*/
+       float: left;
+       padding-top: 5px;
+       text-align: left;
+       width: 200px;
+}
+
+.profile div {
+     margin-top: 5px;
+     margin-bottom: 5px;
+     display:inline-block;
+     *display: inline;     /* for IE7*/
+     zoom:1;              /* for IE7*/
+     vertical-align:left;
+     margin-left:20px
+ }
+
   .register input {
        margin-top: 5px;
        margin-bottom: 5px;

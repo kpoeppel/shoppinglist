@@ -31,22 +31,32 @@ def shoppinglist_view(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = ShoppingForm(data=request.POST)
-        print(form)
         # check whether it's valid:
         if form.is_valid():
             shopping = form.save(commit=False)
             shopping.submit_date = datetime.datetime.now()
             shopping.save()
+            print(shopping.items)
+            shopping.items = shopping.items[1:]
+            return HttpResponseRedirect('/order-' + str(shopping.id))
         else:
             messages.add_message(request,
                                  messages.ERROR,
                                  _('Bitte korrekt ausfuellen.'))
-        return HttpResponseRedirect('')
+            return HttpResponseRedirect('')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = ShoppingForm()
         # print(form.fields)
         return render(request, "shoppinglist.html", {'form': form, 'stores': stores})
+
+def order_view(request, order_id):
+    order = get_object_or_404(ShoppingList, id=order_id)
+    if request.method == 'POST':
+        order.submitted = True
+        return HttpResponseRedirect('')
+    else:
+        return render(request, "order.html", {'shoppinglist': order})
 
 def media_view(request):
     if request.method == "POST":

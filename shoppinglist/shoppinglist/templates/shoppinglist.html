@@ -50,7 +50,7 @@
 
       </div>
 
-      <input type="submit" value="Bestellung Absenden" form="shoppingform">
+      <input type="submit" value="Bestellung Überprüfen" form="shoppingform">
       </div>
       <div id="noscript" visibility="visible"> Bitte schalten Sie Javascript ein! </div>
 
@@ -73,15 +73,20 @@
           return ((a) > (b))?(a):(b);
         }
 
+        function cutstart(idstring, offset){
+          return idstring.substring(offset, idstring.length-1);
+        }
+
         function check(){
           var text = "";
+          var order_dict = [];
           var selStores = document.getElementById('selected-stores');
           for (var i = 0; i < selStores.children.length; i++){
-            text += selStores.children[i].id + ":\n";
-            console.log(selStores.children[i]);
-            text += selStores.children[i].children[1].value + "\n\n";
+            order_dict.push({"store_id": cutstart(selStores.children[i].id, 7),
+                             "store_name": selStores.children[i].children[0].innerText,
+                             "orders": selStores.children[i].children[1].value});
           }
-          document.getElementById("orders").children[0].value = text;
+          document.getElementById("orders").children[0].value = JSON.stringify(order_dict);
         }
 
         function init (elem) {

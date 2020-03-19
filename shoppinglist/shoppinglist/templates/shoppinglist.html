@@ -1,6 +1,5 @@
       {% extends "base.html" %}
       {% load i18n %}
-      {% load crispy_forms_tags %}
 
       {% block title %}ShoppingList - Order{% endblock %}
 
@@ -84,7 +83,7 @@
           for (var i = 0; i < selStores.children.length; i++){
             order_dict.push({"store_id": cutstart(selStores.children[i].id, 7),
                              "store_name": selStores.children[i].children[0].innerText,
-                             "orders": selStores.children[i].children[1].value});
+                             "items": selStores.children[i].children[1].value});
           }
           document.getElementById("orders").children[0].value = JSON.stringify(order_dict);
         }

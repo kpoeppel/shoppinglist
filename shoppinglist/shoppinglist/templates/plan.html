@@ -2,21 +2,42 @@
 {% load i18n %}
 {% block title %}ShoppingList{% endblock %}
 
-{% load crispy_forms_tags %}
-
 {% block main %}
 
 {% if user.is_authenticated %}
 
-<h3> {% trans "Your Plan" %}: </h3>
+{% if weekplan %}
+<h3> {% trans "Der Plan" %}: </h3>
+<br>
+<form action="" method="post">
+  {% csrf_token %}
+<div class="week-plan">
+  <table border="1" style="width:95%;text-align:center;margin: 0px auto;">
+    {% for day in weekplan %}
+    <tr>
+        <th>{{ day.date }}
+        </th>
+        {% for timeslot in day.timeslots %}
+          <td>
+            {{ timeslot }}
+          </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+<br>
+<br>
+</form>
+{% endif %}
 
-<h3> {% trans "Your personal information"%} </h3>
+<h3> {% trans "Ihre Daten"%} </h3>
 
 <div class="profile">
 
 <form action="" method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ form.as_p }}
     <input type="submit" value="{% trans 'Change' %}">
 </form>
 

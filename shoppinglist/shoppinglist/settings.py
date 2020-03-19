@@ -41,10 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "sass_processor",
     'material',
-    'djmoney',
-    'crispy_forms',
     'django_registration',
-    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
@@ -134,10 +131,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-CRISPY_TEMPLATE_PACK = 'uni_form'
-
-CURRENCIES = ('EUR')
-CURRENCY_CHOICES = [('EUR', '€')]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 

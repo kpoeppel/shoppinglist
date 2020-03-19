@@ -3,13 +3,14 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.db import IntegrityError
-from .models import User, ShoppingList, Store, MediaFile
+from .models import User, ShoppingList, Store, MediaFile, WeekPlan
 from .forms import ProfileForm, UserRegistrationForm, ShoppingForm
 import datetime
 from django.contrib import messages
 from django_registration.backends.activation.views import RegistrationView
 from django.utils.translation import gettext as _
 import docupy
+import json
 import re
 
 def index_view(request):
@@ -36,8 +37,6 @@ def shoppinglist_view(request):
             shopping = form.save(commit=False)
             shopping.submit_date = datetime.datetime.now()
             shopping.save()
-            print(shopping.items)
-            shopping.items = shopping.items[1:]
             return HttpResponseRedirect('/order-' + str(shopping.id))
         else:
             messages.add_message(request,
@@ -52,11 +51,17 @@ def shoppinglist_view(request):
 
 def order_view(request, order_id):
     order = get_object_or_404(ShoppingList, id=order_id)
+    if order.submitted == True:
+        return HttpResponseNotFound("Page not found")
     if request.method == 'POST':
         order.submitted = True
         return HttpResponseRedirect('')
     else:
-        return render(request, "order.html", {'shoppinglist': order})
+        itemlist = ""
+        stores = json.loads(order.items)
+        for store in stores:
+            itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
+        return render(request, "order.html", {'shoppinglist': order, 'items': itemlist})
 
 def media_view(request):
     if request.method == "POST":
@@ -110,7 +115,7 @@ class register_view(RegistrationView):
 
 
 
-def profile_view(request):
+def plan_view(request):
     user = request.user
     # if this is a POST request we need to process the form data
     if user.is_authenticated:
@@ -142,11 +147,16 @@ def profile_view(request):
         # if a GET (or any other method) we'll create a blank form
         else:
             form = ProfileForm(instance=request.user)
+            wp = WeekPlan.objects.latest('editTime')
+            if not wp:
+                wp = WeekPlan(user=User.objects.filter(id=0), editTime=datetime.datetime.now())
+            weekplan = json.loads(wp.plan)
             return render(request,
-                          'profile.html',
-                          {'form': form,
+                          'plan.html',
+                          {'weekplan': weekplan,
+                           'form': form,
                            'user': request.user})
     else:
         return render(request,
-                      'profile.html',
+                      'plan.html',
                       {'user': user})

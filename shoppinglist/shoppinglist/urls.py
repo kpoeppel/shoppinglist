@@ -32,5 +32,5 @@ urlpatterns = [
     path(r"accounts/register/", views.register_view.as_view()),
     url(r'^accounts/', include('django_registration.backends.activation.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    path(r"accounts/profile/", views.profile_view),
+    path(r'accounts/profile/', views.plan_view),
 ]

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block title %}ShoppingList - Order{% endblock %}
 
@@ -9,7 +8,7 @@
 <div class="order">
   <label for="id" style="font-weight: bold;">BESTELLUNGSNUMMER:</label>
   <div id="id">
-    {{ shoppinglist.id }}
+    &nbsp{{ shoppinglist.id }}
   </div>
   <br>
   <label for="name">Name:</label>
@@ -37,12 +36,13 @@
 <div>
 <div>Ihre Bestellungen:</div>
 <br>
-<div style="background-color:#DDDDDD;white-space: pre-line;">{{ shoppinglist.items }}
+<div style="background-color:#DDDDDD;white-space: pre-line;">{{ items }}
 </div>
 </div>
 
-<input type=button value="Zurück" onClick="javascript:history.go(-1);">
 <form id="shoppingform" action="" method="post">
+  {% csrf_token %}
+  <input type=button value="Zurück" onClick="javascript:history.go(-1);">
   <input type="submit" value="Bestellung Abschicken" form="shoppingform">
 </form>
 

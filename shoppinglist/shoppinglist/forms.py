@@ -15,7 +15,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'number']
+        fields = ['first_name', 'last_name', 'email', 'number']
         field_classes = {'username': UsernameField}
 
     def clean_password(self):
@@ -29,7 +29,7 @@ class UserRegistrationForm(RegistrationForm):
 
     class Meta(RegistrationForm.Meta):
         model = User
-        fields = ['email', 'name']
+        fields = ['first_name', 'last_name', 'email', 'number']
 
 class ShoppingForm(forms.ModelForm):
 

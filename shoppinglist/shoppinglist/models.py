@@ -33,6 +33,7 @@ class ShoppingList(models.Model):
     number = models.CharField(blank=True, default='', max_length=30)
     email = models.EmailField(blank=True, default='')
     items = models.TextField()
+    submitted = models.BooleanField(default=False)
 
 class MediaFile(models.Model):
     def create_filename(instance, filename):

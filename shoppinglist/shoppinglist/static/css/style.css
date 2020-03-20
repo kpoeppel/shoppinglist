@@ -177,14 +177,17 @@ p, li {
 .week-plan table {
 	display: table;
 }
-.week-plan table tr {
-	display: table-cell;
+
+.week-plan textarea{
+  resize:none;
+  background: white;
+  height:95%;
+  width:98%;
+  overflow-y:hidden;
+  overflow-x:auto;
 }
-.week-plan table tr td {
-	display: block;
-}
-.week-plan table th {
-	display: block;
+.week-plan div{
+  margin-top: 5px;
 }
 
 .profile div {

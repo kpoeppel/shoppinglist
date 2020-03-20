@@ -71,6 +71,7 @@ function pushChanges(id){
   if (delayedSend == false){
     delayedSend = true;
     delayedSendTimeout = setTimeout(function(){sendChanges(id);}, 2000);
+
   }
 }
 

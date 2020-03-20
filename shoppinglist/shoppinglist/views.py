@@ -119,9 +119,9 @@ def get_timeslots():
     today = datetime.datetime.now().date()
     oneday = datetime.timedelta(days=1)
     timeslots = []
-    for i in range(7):
+    for j in range(len(TIMESLOTS)):
         day = []
-        for j in range(len(TIMESLOTS)):
+        for i in range(7):
             timeslot = TimeSlot.objects.filter(date=today + i*oneday, slotnum=j)
             if not timeslot:
                 timeslot = TimeSlot(date=today + i*oneday, slotnum=j)
@@ -196,26 +196,23 @@ def plan_view(request):
     user = request.user
     # if this is a POST request we need to process the form data
     if user.is_authenticated:
-        if request.method == 'POST':
-            # create a form instance and populate it with data from the request:
-            print(request.POST)
-            # check whether it's valid:
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            #print(form)
-            #print(form.errors)
-
-            return HttpResponseRedirect('')
-
-        # if a GET (or any other method) we'll create a blank form
-        else:
-            timeslots = get_timeslots()
-            weekplan = timeslots
+        weekplan = get_timeslots()
+        if request.user_agent.is_mobile:
+             # returns True
+             return render(request,
+                        'plan_mobile.html',
+                        {'weekplan': weekplan,
+                        'user': request.user})
+        elif request.user_agent.is_tablet:
             return render(request,
-                          'plan.html',
-                          {'weekplan': weekplan,
-                           'user': request.user})
+                       'plan.html',
+                       {'weekplan': weekplan,
+                       'user': request.user})
+        elif request.user_agent.is_pc:
+            return render(request,
+                       'plan.html',
+                       {'weekplan': weekplan,
+                       'user': request.user})
     else:
         return render(request,
                       'plan.html',

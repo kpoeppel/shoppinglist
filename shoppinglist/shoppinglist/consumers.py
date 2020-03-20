@@ -29,7 +29,8 @@ class UpdateConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        _, date, slotnum = text_data_json['id'].split('+')
+        print(text_data_json['id'])
+        _, date, slotnum = text_data_json['id'].split('_')
         ts = TimeSlot(date=datetime.datetime.strptime(date, "%Y-%m-%d").date(),
                       slotnum=slotnum,
                       changedby=self.user.id,

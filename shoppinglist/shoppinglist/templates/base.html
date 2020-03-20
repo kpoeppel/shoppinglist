@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="author" content="Korbinian Poeppel">
-    <meta name="description" content="EinkaufsZettel">
+    <meta name="description" content="EinkaufsHilfel">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{% block title %}{% endblock %}</title>
@@ -27,7 +27,7 @@
         </div>
       -->
 
-        <a href="/"><h1>Einkaufszettel</h1></a>
+        <a href="/"><h1>EinkaufsHilfe</h1></a>
 
       </header>
       <!-- <div id="navicon">&#9776;</div> -->
@@ -41,7 +41,13 @@
               </li>
                 {% if user.is_authenticated %}
               <li class=''>
-                <a target='_top' href="/accounts/profile">{% trans "Helferplan" %}</a>
+                  <a target='_top' href="/plan">{% trans "Helferplan" %}</a>
+              </li>
+              <li class=''>
+                  <a target='_top' href="/helperlist">{% trans "Helferliste" %}</a>
+              </li>
+              <li class=''>
+                <a target='_top' href="/accounts/profile">{% trans "Profil" %}</a>
               </li>
               <li class=''>
                 <a target='_top' href="/accounts/logout">{% trans "Logout"%}</a>

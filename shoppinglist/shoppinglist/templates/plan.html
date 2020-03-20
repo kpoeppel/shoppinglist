@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}EinkaufsZettel - HelferPlan{% endblock %}
+{% block title %}EinkaufsHilfe - HelferPlan{% endblock %}
 
 {% block main %}
 
@@ -9,17 +9,18 @@
 {% if weekplan %}
 <h3> {% trans "Der Plan" %}: </h3>
 <br>
-<form action="" method="post">
+
+<form id="big-plan" action="" method="post">
   {% csrf_token %}
 <div class="week-plan">
-  <table border="1" style="width:95%;text-align:center;margin: 0px auto;">
+  <table border="1" style="width:95%; text-align:center;margin: 0px auto;">
     {% for day in weekplan %}
     <tr>
         <th>{{ day.0.date }}
         </th>
         {% for timeslot in day %}
           <td>
-            <textarea style="width:100%">
+            <textarea style="width:95%" oninput="getElementById('big-plan').submit()" onpropertychange="getElementById('big-plan').submit()">
               {{ timeslot.entry }}
             </textarea>
           </td>
@@ -30,17 +31,7 @@
 </div>
 <br>
 <br>
-</form>
 {% endif %}
-
-<h3> {% trans "Ihre Daten"%} </h3>
-
-<div class="profile">
-
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans 'Change' %}">
 </form>
 
 </div>
@@ -50,9 +41,10 @@
     {% endfor %}
 {% endif %}
 
-
 {% else %}
 {% trans "You are not logged in." %}
 {% endif %}
+
+
 
 {% endblock %}

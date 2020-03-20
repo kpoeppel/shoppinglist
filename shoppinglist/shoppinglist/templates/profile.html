@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}EinkaufsHilfe - Profil{% endblock %}
+
+{% block main %}
+
+{% if user.is_authenticated %}
+
+<h3> {% trans "Ihre Daten"%} </h3>
+
+<div class="profile">
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{% trans 'Change' %}">
+</form>
+
+</div>
+
+
+{% else %}
+{% trans "You are not logged in." %}
+{% endif %}
+
+
+
+{% endblock %}

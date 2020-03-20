@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}EinkaufsZettel - Helferliste{% endblock %}
+
+{% block main %}
+
+
+{% if user.is_authenticated %}
+
+<div class="helper-list">
+  <table border="1" style="width:95%; text-align:center;margin: 0px auto;">
+        <tr>
+          <th> Name </th>
+          <th> Email </th>
+          <th> Telefonnummer </th>
+          <th> Adresse </th>
+        </tr>
+
+        {% for helper in helpers %}
+        <tr>
+            <td> {{ helper.first_name }} {{ helper.last_name }} </td>
+            <td> {{ helper.email }} </td>
+            <td> {{ helper.number }} </td>
+            <td> {{ helper.address }} </td>
+        </tr>
+        {% endfor %}
+
+  </table>
+</div>
+
+
+{% else %}
+{% trans "You are not logged in." %}
+{% endif %}
+
+{% endblock %}

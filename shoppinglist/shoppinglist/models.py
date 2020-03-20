@@ -47,6 +47,9 @@ class TimeSlot(models.Model):
     changedby = models.IntegerField(default=0)
     entry = models.TextField(blank=True)
 
+    def __str__(self):
+        return "{},{}:\n{}\n({},{})".format(self.date, self.slotnum, self.entry, self.created, self.changedby)
+
 class MediaFile(models.Model):
     def create_filename(instance, filename):
         extension = "." + filename.split(".")[-1] if "." in filename else ""

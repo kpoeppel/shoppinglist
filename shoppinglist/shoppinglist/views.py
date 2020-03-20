@@ -132,12 +132,14 @@ def get_timeslots():
     print(timeslots)
     return timeslots
 
-def plan_view(request):
+
+def profile_view(request):
     user = request.user
     # if this is a POST request we need to process the form data
     if user.is_authenticated:
         if request.method == 'POST':
             # create a form instance and populate it with data from the request:
+            print(request.POST)
             form = ProfileForm(data=request.POST, instance=request.user)
             # check whether it's valid:
             # process the data in form.cleaned_data as required
@@ -167,9 +169,52 @@ def plan_view(request):
             timeslots = get_timeslots()
             weekplan = timeslots
             return render(request,
+                          'profile.html',
+                          {'form': form,
+                           'user': request.user})
+    else:
+        return render(request,
+                      'profile.html',
+                      {'user': user})
+
+
+def helperlist_view(request):
+    user = request.user
+    if user.is_authenticated:
+        helpers = User.objects.all()
+        print(helpers)
+        return render(request,
+                      'helperlist.html',
+                      {'user': request.user,
+                       'helpers': helpers})
+    else:
+        return render(request,
+                      'helperlist.html',
+                      {'user': user})
+
+def plan_view(request):
+    user = request.user
+    # if this is a POST request we need to process the form data
+    if user.is_authenticated:
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            print(request.POST)
+            # check whether it's valid:
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            #print(form)
+            #print(form.errors)
+
+            return HttpResponseRedirect('')
+
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            timeslots = get_timeslots()
+            weekplan = timeslots
+            return render(request,
                           'plan.html',
                           {'weekplan': weekplan,
-                           'form': form,
                            'user': request.user})
     else:
         return render(request,

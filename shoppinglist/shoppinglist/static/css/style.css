@@ -174,16 +174,16 @@ p, li {
        width: 200px;
 }
 
-table {
+.week-plan table {
 	display: table;
 }
-table tr {
+.week-plan table tr {
 	display: table-cell;
 }
-table tr td {
+.week-plan table tr td {
 	display: block;
 }
-table th {
+.week-plan table th {
 	display: block;
 }
 

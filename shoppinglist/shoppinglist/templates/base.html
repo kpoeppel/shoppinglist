@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="author" content="Korbinian Poeppel">
-    <meta name="description" content="ShoppingList">
+    <meta name="description" content="EinkaufsZettel">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{% block title %}{% endblock %}</title>
@@ -27,21 +27,21 @@
         </div>
       -->
 
-        <a href="/"><h1>ShoppingList</h1></a>
+        <a href="/"><h1>Einkaufszettel</h1></a>
 
       </header>
       <!-- <div id="navicon">&#9776;</div> -->
       <nav>
             <ul id='Navigation' class='row card-panel teal lighten-2'>
               <li class=''>
-                <a target='_top' href="/shoppinglist">{% trans "Enter ShoppingList"%}</a>
+                <a target='_top' href="/shoppinglist">{% trans "EinkaufsZettel eingeben"%}</a>
               </li>
               <li class=''>
-                <a target='_top' href="/">{% trans "Idea"%}</a>
+                <a target='_top' href="/">{% trans "Idee"%}</a>
               </li>
                 {% if user.is_authenticated %}
               <li class=''>
-                <a target='_top' href="/accounts/profile">{% trans "My Profile" %}</a>
+                <a target='_top' href="/accounts/profile">{% trans "Helferplan" %}</a>
               </li>
               <li class=''>
                 <a target='_top' href="/accounts/logout">{% trans "Logout"%}</a>
@@ -51,7 +51,7 @@
                 <a target='_top' href="/accounts/login">{% trans "Login"%}</a>
               </li>
               <li class=''>
-                <a target='_top' href="/accounts/register">{% trans "Register as Volunteer"%}</a>
+                <a target='_top' href="/accounts/register">{% trans "Als Helfer anmelden"%}</a>
               </li>
                 {% endif %}
             </ul>

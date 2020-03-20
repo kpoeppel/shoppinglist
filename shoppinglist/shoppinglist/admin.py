@@ -8,7 +8,7 @@ from .models import User, ShoppingList
 
 admin.site.register(models.Store)
 admin.site.register(models.ShoppingList)
-admin.site.register(models.WeekPlan)
+admin.site.register(models.TimeSlot)
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm

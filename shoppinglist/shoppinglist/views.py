@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.db import IntegrityError
-from .models import User, ShoppingList, Store, MediaFile, WeekPlan
+from .models import User, ShoppingList, Store, MediaFile, TimeSlot
+from .settings import TIMESLOTS
 from .forms import ProfileForm, UserRegistrationForm, ShoppingForm
 import datetime
 from django.contrib import messages
@@ -114,6 +115,22 @@ class register_view(RegistrationView):
         return render(request, self.template_name, {'form': form})
 
 
+def get_timeslots():
+    today = datetime.datetime.now().date()
+    oneday = datetime.timedelta(days=1)
+    timeslots = []
+    for i in range(7):
+        day = []
+        for j in range(len(TIMESLOTS)):
+            timeslot = TimeSlot.objects.filter(date=today + i*oneday, slotnum=j)
+            if not timeslot:
+                timeslot = TimeSlot(date=today + i*oneday, slotnum=j)
+            else:
+                timeslot = timeslot.latest('created')
+            day += [timeslot]
+        timeslots += [day]
+    print(timeslots)
+    return timeslots
 
 def plan_view(request):
     user = request.user
@@ -147,10 +164,8 @@ def plan_view(request):
         # if a GET (or any other method) we'll create a blank form
         else:
             form = ProfileForm(instance=request.user)
-            wp = WeekPlan.objects.latest('editTime')
-            if not wp:
-                wp = WeekPlan(user=User.objects.filter(id=0), editTime=datetime.datetime.now())
-            weekplan = json.loads(wp.plan)
+            timeslots = get_timeslots()
+            weekplan = timeslots
             return render(request,
                           'plan.html',
                           {'weekplan': weekplan,

@@ -40,16 +40,17 @@ class ShoppingList(models.Model):
     items = models.TextField()
     submitted = models.BooleanField(default=False)
 
-class WeekPlan(models.Model):
-    plan = models.TextField(default=json.dumps(defaultplan))
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    editTime = models.DateField()
+class TimeSlot(models.Model):
+    date = models.DateField()
+    slotnum = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+    changedby = models.IntegerField(default=0)
+    entry = models.TextField(blank=True)
 
 class MediaFile(models.Model):
     def create_filename(instance, filename):
         extension = "." + filename.split(".")[-1] if "." in filename else ""
-        return datetime.strftime(datetime.now(), "%Y%m%d-%H%M%S") + extension
-
+        return datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d-%H%M%S") + extension
     def media_lookup():
         return {
          media.name: media.mediafile.url for media in MediaFile.objects.all()

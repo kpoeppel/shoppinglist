@@ -118,6 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'shoppinglist.User'
 
+TIMESLOTS = ["8-10", "10-12", "12-14", "14-16", "16-18", "18-20"]
 
 LANGUAGE_CODE = 'de-de'
 LOCALE_PATHS = [

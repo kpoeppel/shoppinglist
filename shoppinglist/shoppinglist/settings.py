@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'shoppinglist.apps.ShoppingListConfig',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,6 +74,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'shoppinglist.wsgi.application'
+ASGI_APPLICATION = 'shoppinglist.routing.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 SASS_PROCESSOR_ROOT = os.path.abspath(os.path.join(BASE_DIR, "shoppinglist", "static"))
 
@@ -118,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'shoppinglist.User'
 
-TIMESLOTS = ["8-10", "10-12", "12-14", "14-16", "16-18", "18-20"]
+TIMESLOTS = ["8-12", "14-18", "18-20"]
 
 LANGUAGE_CODE = 'de-de'
 LOCALE_PATHS = [

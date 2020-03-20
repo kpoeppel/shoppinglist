@@ -10,8 +10,6 @@
 <h3> {% trans "Der Plan" %}: </h3>
 <br>
 
-<form id="big-plan" action="" method="post">
-  {% csrf_token %}
 <div class="week-plan">
   <table border="1" style="width:95%; text-align:center;margin: 0px auto;">
     {% for day in weekplan %}
@@ -20,9 +18,7 @@
         </th>
         {% for timeslot in day %}
           <td>
-            <textarea style="width:95%" oninput="getElementById('big-plan').submit()" onpropertychange="getElementById('big-plan').submit()">
-              {{ timeslot.entry }}
-            </textarea>
+            <textarea id="ts+{{ timeslot.date|date:"c" }}+{{ timeslot.slotnum }}" style="width:95%" oninput="sendChanges(this.id)" onpropertychange="sendChanges(this.id)">{{ timeslot.entry }}</textarea>
           </td>
         {% endfor %}
     </tr>
@@ -32,14 +28,38 @@
 <br>
 <br>
 {% endif %}
-</form>
 
-</div>
 {% if messages %}
     {% for message in messages %}
         <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
     {% endfor %}
 {% endif %}
+
+<script>
+const updateSocket = new WebSocket('ws://'
+                                   + window.location.host
+                                   + '/ws/update/'
+                                   + 'plan'
+                                   + '/')
+
+updateSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            var elem = document.getElementById(data.id);
+            if (elem != null){
+              elem.value = data.value;
+            }
+        };
+
+updateSocket.onclose = function(e) {
+            console.error('Update socket closed unexpectedly');
+        };
+
+
+function sendChanges(id){
+  updateSocket.send(JSON.stringify({"id": id, "value": document.getElementById(id).value}));
+}
+</script>
+
 
 {% else %}
 {% trans "You are not logged in." %}

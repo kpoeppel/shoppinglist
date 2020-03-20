@@ -45,7 +45,7 @@ class TimeSlot(models.Model):
     slotnum = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True, blank=True)
     changedby = models.IntegerField(default=0)
-    entry = models.TextField(blank=True)
+    entry = models.TextField(blank=True, default='')
 
     def __str__(self):
         return "{},{}:\n{}\n({},{})".format(self.date, self.slotnum, self.entry, self.created, self.changedby)

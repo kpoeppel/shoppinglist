@@ -40,6 +40,9 @@
                 <a target='_top' href="/">{% trans "Idee"%}</a>
               </li>
                 {% if user.is_authenticated %}
+                <li class=''>
+                    <a target='_top' href="/work">{% trans "Abarbeiten" %}</a>
+                </li>
               <li class=''>
                   <a target='_top' href="/plan">{% trans "Helferplan" %}</a>
               </li>

@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}EinkaufsZettel - Bestellung{% endblock %}
+
+{% block main %}
+
+{% if user.is_authenticated %}
+<h2>Aufgaben <h3>
+
+<div style="margin-top: 20px">
+<form id="shoppingform" action="" method="post">
+  {% csrf_token %}
+  <a onhover="" onclick="document.getElementById('shoppingform').submit()">Einkäufe zusammenstellen</a>
+  {{ form.as_p }}
+</form>
+</div>
+
+<div style="margin-top: 20px">
+<a href="/deliver">Bestellungen Ausliefern</a>
+</div>
+
+<div style="margin-top: 20px">
+<a href="/delivering">Meine Bestellungen</a>
+</div>
+
+<div style="margin-top: 20px">
+<a href="/delivered">Ausgelieferte Bestellungen</a>
+</div>
+{% else %}
+Du bist nicht eingeloggt.
+{% endif %}
+
+
+{% endblock %}

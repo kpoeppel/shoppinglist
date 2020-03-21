@@ -7,10 +7,20 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext as _
 import json
 import datetime
+from enum import Enum
+
 
 timeslots = ["8 - 10", "10 - 12", "12 - 14", "14 - 16", "16 - 18", "18 - 20"]
 defaultplan = [{"date": (datetime.datetime.today()+datetime.timedelta(i)).date().isoformat(),
                 "timeslots": [{"timeslot": s} for s in timeslots]} for i in range(7)]
+
+class ShoppingListState(Enum):   # A subclass of Enum
+    Creation = "Creation"
+    Ordered = "Ordered"
+    Picked = "Picked"
+    Delivering = "Delivering"
+    Delivered = "Delivered"
+    Paid = "Paid?"
 
 class User(AbstractUser):
     # add additional fields in here
@@ -37,7 +47,17 @@ class ShoppingList(models.Model):
     number = models.CharField(blank=True, default='', max_length=30)
     email = models.EmailField(blank=True, default='')
     items = models.TextField()
-    submitted = models.BooleanField(default=False)
+    state = models.CharField(
+      max_length=10,
+      default = ShoppingListState.Creation,
+      choices=[(tag, tag.value) for tag in ShoppingListState]  # Choices is a list of Tuple
+    )
+
+class Delivery(models.Model):
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
+    shoppinglist = models.ForeignKey(ShoppingList,
+                                     on_delete=models.CASCADE)
 
 class TimeSlot(models.Model):
     date = models.DateField()

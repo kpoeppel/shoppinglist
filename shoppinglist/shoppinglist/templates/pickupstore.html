@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}EinkaufsZettel - Bestellung{% endblock %}
+
+{% block main %}
+
+<h3>Offene Bestellungen - {{ store.name }} </h3>
+
+{% for items in shop_items %}
+<div style="border:1px solid black;">
+<form id="{{ items.id }}" action="" method="post">
+    {% csrf_token %}
+  <div style="font-weight:bold;">
+    Bestell-Nummer: {{ items.id }}
+  </div>
+  <div>
+    {{ items.items }}
+  </div>
+  <input type="hidden" name="id" value="{{ items.id }}">
+  <input type="submit" value="Als bearbeitet markieren">
+</form>
+  </div>
+{% endfor %}
+
+{% endblock %}

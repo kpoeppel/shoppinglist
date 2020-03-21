@@ -9,5 +9,9 @@ django-phonenumber-field
 django-registration
 django-sass-processor
 django-user-accounts
-phonenumbers
-django-crispy-forms
+channels
+django-channels
+django-user-agents
+redis
+channels_redis
+asgiref

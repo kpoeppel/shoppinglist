@@ -1,8 +1,10 @@
 from django import forms
-from .models import User, ShoppingList
+from .models import User, ShoppingList, ShoppingListState, Delivery
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django_registration.forms import RegistrationForm
 
+class SelectForm(forms.Form):
+    choice_field = forms.ChoiceField(label="Laden: ", choices=())
 
 class CustomUserCreationForm(UserCreationForm):
 

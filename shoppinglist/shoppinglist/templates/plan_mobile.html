@@ -21,7 +21,7 @@
     </tr>
     {% for day in weekplan %}
     <tr style="height:100%;width=100%;">
-      <td>Morgen</td>
+      {{ forloop.counter0 }}
       {% for timeslot in day %}
           <td style="height:100%;width=100%;">
             <textarea id="ts_{{ timeslot.date|date:'c' }}_{{ timeslot.slotnum }}"

@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}EinkaufsZettel - Bestellung{% endblock %}
+
+{% block main %}
+
+<h3>Abholbare Bestellungen - {{ store.name }} </h3>
+
+{% for items in shop_items %}
+<div style="border:1px solid black;" >
+<form id="form-{{ items.id }}" class="listelem" action="" method="post">
+    {% csrf_token %}
+  <div style="font-weight:bold;">
+    Bestell-Nummer: {{ items.id }}
+  </div>
+  <div>
+    {{ items.items }}
+  </div>
+  <input type="hidden" id="resp-{{ items.id }}" name="id" value="{{ items.id }}">
+  <input type="button" value="Zurueck zu PickUp" onclick="document.getElementById('resp-{{ items.id }}').value = 'back-{{ items.id }}'; document.getElementById('form-{{ items.id }}').submit();">
+  <input type="submit" value="Abgeholt">
+</form>
+</div>
+{% endfor %}
+
+{% endblock %}

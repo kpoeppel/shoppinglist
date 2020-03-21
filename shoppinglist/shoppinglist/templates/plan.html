@@ -13,21 +13,26 @@
 <div class="week-plan">
   <table id="plan-table" border="1" style="width:98%; text-align:center;margin: 0px auto;">
     <tr>
-      <th></th>
-            {% for day in weekplan.0 %}
-            <th>{{ day.date }}
+      {% for day in weekplan.0 %}
+            <th>
+              {% if not forloop.first %}
+                {{ day.date }}
+              {% endif %}
             </th>
+
             {% endfor %}
     </tr>
-    {% for day in weekplan %}
+    {% for time in weekplan %}
     <tr style="height:100%;width=100%;">
-      <td>Morgen</td>
-      {% for timeslot in day %}
-          <td style="height:100%;width=100%;">
+      {% for timeslot in time %}
+      <td style="height:100%;width=100%;">
+        {% if forloop.first %}
+          {{ timeslot }}
+          {% else %}
             <textarea id="ts_{{ timeslot.date|date:'c' }}_{{ timeslot.slotnum }}"
                       oninput="pushChanges(this.id)"
                       onpropertychange="pushChanges(this.id)">{{ timeslot.entry }}</textarea>
-            <div></div>
+          {% endif %}
           </td>
         {% endfor %}
     </tr>
@@ -74,6 +79,7 @@ function pushChanges(id){
 }
 
 function sendChanges(id){
+  console.log("Sending changes.");
   updateSocket.send(JSON.stringify({"id": id, "value": document.getElementById(id).value}));
   delayedSend = false;
 }
@@ -92,7 +98,9 @@ function initAll() {
 
   {% for day in weekplan %}
     {% for timeslot in day %}
-      init(document.getElementById("ts_{{ timeslot.date|date:'c' }}_{{ timeslot.slotnum }}"));
+      {% if not forloop.first %}
+        init(document.getElementById("ts_{{ timeslot.date|date:'c' }}_{{ timeslot.slotnum }}"));
+      {% endif %}
     {% endfor %}
   {% endfor %}
 

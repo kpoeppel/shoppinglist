@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}EinkaufsZettel - Bestellung{% endblock %}
+
+{% block main %}
+
+<h3>Abholbare Bestellungen</h3>
+
+{% for items in shoppinglists %}
+<div style="border:1px solid black;">
+<form id="form-{{ items.id }}" class="listelem" action="" method="post">
+    {% csrf_token %}
+    <label style="font-weight:bold;" for="id">Bestellnummer:</label>
+    <div id="id">{{ items.id }}</div>
+    <br>
+
+  <label for="name">Name:</label>
+  <div id="name">{{ items.name }}</div>
+  <br>
+  <label for="address">Adresse:</label>
+  <div id="name">{{ items.address }}</div>
+  <br>
+  <label for="number">Telefonnummer:</label>
+  <div>{{ items.number }}</div>
+  <br>
+  <label for="shop">Shops:</label>
+  <div>
+   {% for shop in items.shops %}
+     {{ shop.store_name }}
+   {% endfor %}
+   </div>
+   <br>
+  <input type="hidden" id="resp-{{ items.id }}" name="id" value="{{ items.id }}">
+  <input type="submit" value="Übernehmen">
+</form>
+
+</div>
+{% endfor %}
+<a href='/delivering'>Meine Lieferungen</a>
+
+{% endblock %}

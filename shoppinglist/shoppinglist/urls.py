@@ -35,4 +35,10 @@ urlpatterns = [
     path(r'accounts/profile/', views.profile_view),
     path(r'plan', views.plan_view),
     path(r'helperlist', views.helperlist_view),
+    path(r'work', views.work_view),
+    path(r'pickup-store-<str:store_id>', views.pickup_store_view),
+    path(r'deliverfrom-store-<str:store_id>', views.deliverfrom_store_view),
+    path(r'deliver', views.deliver_view),
+    path(r'delivering', views.delivering_view),
+    path(r'delivered', views.delivered_view)
 ]

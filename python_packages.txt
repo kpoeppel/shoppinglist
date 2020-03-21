@@ -1,1 +1,1 @@
-django django-allauth django-appconf django-compressor django-htmlmin django-material django-money django-phonenumber-field django-registration django-sass-processor django-user-accounts channels django-channels django-user-agents redis channels_redis asgiref docupy six
+django django-allauth django-appconf django-compressor django-htmlmin django-material django-money django-phonenumber-field django-registration django-sass-processor django-user-accounts django-channels django-user-agents redis channels_redis asgiref docupy six

@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 from djmoney.models.fields import MoneyField
 from djmoney.models.validators import MaxMoneyValidator, MinMoneyValidator
 from django.core.validators import MinValueValidator, MaxValueValidator
-from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
 import json
 import datetime

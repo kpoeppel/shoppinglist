@@ -1,4 +1,4 @@
-1. Install python3 + pip
+1. Install python3 + pip (eventually in conda environment)
 2. Install the packages in 'python_packages.txt' using 'pip install'
 3. Install the redis server (Debian: sudo apt install redis-server)
 4. Setup the Django-System using 'python manage.py migrate' in 'shoppinglist'

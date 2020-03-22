@@ -20,7 +20,7 @@ def index_view(request):
 
 def about_view(request):
     try:
-        with open("../ShoppingList_Concept.md") as f:
+        with open("../KoopKauf_Concept.md") as f:
             desc_text = f.read()
             desc_text = re.sub(r"(?<!\n)\n(?![\n-])", " ", desc_text)
             desc_text = re.sub(r"  ", " ", desc_text)
@@ -28,6 +28,40 @@ def about_view(request):
     except IOError:
         desc = ""
     return render(request, "about.html", {"description": desc})
+
+def impressum_view(request):
+    try:
+        with open("shoppinglist/static/texts/Impressum.md") as f:
+            desc_text = f.read()
+            desc_text = re.sub(r"(?<!\n)\n(?![\n-])", " ", desc_text)
+            desc_text = re.sub(r"  ", " ", desc_text)
+            desc = docupy.markdown_to_html(desc_text.replace("\r", ""), MediaFile.media_lookup())
+    except IOError:
+        desc = ""
+    return render(request, "impressum.html", {"description": desc})
+
+def rules_view(request):
+    try:
+        with open("shoppinglist/static/texts/Rules.md") as f:
+            desc_text = f.read()
+            desc_text = re.sub(r"(?<!\n)\n(?![\n-])", " ", desc_text)
+            desc_text = re.sub(r"  ", " ", desc_text)
+            desc = docupy.markdown_to_html(desc_text.replace("\r", ""), MediaFile.media_lookup())
+    except IOError:
+        desc = ""
+    return render(request, "rules.html", {"description": desc})
+
+def privacy_view(request):
+    try:
+        with open("shoppinglist/static/texts/Privacy.md") as f:
+            desc_text = f.read()
+            desc_text = re.sub(r"(?<!\n)\n(?![\n-])", " ", desc_text)
+            desc_text = re.sub(r"  ", " ", desc_text)
+            desc = docupy.markdown_to_html(desc_text.replace("\r", ""), MediaFile.media_lookup())
+    except IOError:
+        desc = ""
+    return render(request, "privacy.html", {"description": desc})
+
 
 def shoppinglist_view(request):
     stores = Store.objects.all()

@@ -27,17 +27,14 @@
         </div>
       -->
 
-        <a href="/"><h1>EinkaufsHilfe</h1></a>
+        <a href="/"><h1> <img style="transform: scaleX(-1)" src="{% static 'logo/KoopKauf.svg' %}"> KoopKauf - Rohrbach <img src="{% static 'logo/KoopKauf.svg' %}"></h1></a>
 
       </header>
       <!-- <div id="navicon">&#9776;</div> -->
       <nav>
-            <ul id='Navigation' class='row card-panel teal lighten-2'>
+            <ul id='Navigation'>
               <li class=''>
                 <a target='_top' href="/shoppinglist">{% trans "EinkaufsZettel eingeben"%}</a>
-              </li>
-              <li class=''>
-                <a target='_top' href="/">{% trans "Idee"%}</a>
               </li>
                 {% if user.is_authenticated %}
                 <li class=''>
@@ -65,15 +62,15 @@
                 {% endif %}
             </ul>
         </nav>
-
+      
         <main>
             {% block main %}{% endblock %}
         </main>
       </div>
       <footer>
-        <a> Impressum</a>
-        <a> Nutzungsbedingungen </a>
-        <a> Datenschutz </a>
+        <a href='/impressum'>Impressum</a>
+        <a href="/rules"> Nutzungsbedingungen </a>
+        <a href='/privacy'> Datenschutz </a>
       </footer>
   </body>
 

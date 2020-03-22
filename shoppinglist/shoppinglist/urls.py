@@ -40,5 +40,9 @@ urlpatterns = [
     path(r'deliverfrom-store-<str:store_id>', views.deliverfrom_store_view),
     path(r'deliver', views.deliver_view),
     path(r'delivering', views.delivering_view),
-    path(r'delivered', views.delivered_view)
+    path(r'delivered', views.delivered_view),
+    path(r"impressum", views.impressum_view),
+    path(r"rules", views.rules_view),
+    path(r"privacy", views.privacy_view),
+
 ]

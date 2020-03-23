@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}KoopKauf{% endblock %}
+
+{% block main %}
+
+<div class="order">
+  <label for="id" style="font-weight: bold;">Bestellungsnummer:</label>
+  <div id="id">
+    &nbsp{{ shoppinglist.id }}
+  </div>
+  <br>
+  <label for="state" style="font-weight: bold;">Status:</label>
+  <div id="state">
+    &nbsp{{ shoppinglist.state }}
+  </div>
+  <br>
+<br>
+</div>
+<div style="background-color:#DDDDDD;white-space: pre-line;">{{ items }}
+</div>
+
+
+{% endblock %}

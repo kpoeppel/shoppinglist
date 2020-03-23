@@ -1,6 +1,8 @@
 Sehr geehrte(r) Nutzer(in) der Website KoopKauf,
 
-hiermit koennen Sie Ihr Konto aktivieren.
+hiermit koennen Sie Ihr Konto aktivieren:
+http://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
+
 Vielen Dank fuer Ihre Unterstuetzung von KoopKauf!
 
 Mit besten Gruessen

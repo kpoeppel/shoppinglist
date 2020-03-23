@@ -259,13 +259,29 @@ def order_view(request, order_id):
         return HttpResponseNotFound("Page not found")
     if request.method == 'POST':
         order.state = ShoppingListState.Ordered
-        return HttpResponseRedirect('')
+        print("ID:", order_id)
+        return HttpResponseRedirect('orderstate-'+str(order_id))
     else:
         itemlist = ""
         stores = json.loads(order.items)
         for store in stores:
             itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
         return render(request, "order.html", {'shoppinglist': order, 'items': itemlist})
+
+def order_state_view(request, order_id):
+    order = get_object_or_404(ShoppingList, id=int(order_id))
+    if order.state != 'ShoppingListState.Creation':
+        return HttpResponseNotFound("Page not found")
+    if request.method == 'POST':
+        order.state = ShoppingListState.Ordered
+        return HttpResponseRedirect('')
+    else:
+        itemlist = ""
+        stores = json.loads(order.items)
+        for store in stores:
+            itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
+        return render(request, "order-state.html", {'shoppinglist': order, 'items': itemlist})
+
 
 def media_view(request):
     if request.method == "POST":

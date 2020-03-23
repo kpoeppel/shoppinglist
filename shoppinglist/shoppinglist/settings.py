@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+print("BASE_DIR=", BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -20,13 +20,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_-ijxz1hdg4cw&#fhd!i__%cniv#26vukzco#^vcc)lp%bj-6_'
+SESSION_COOKIE_SECURE=True
+
+SECURE_SSL_REDIRECT=True
+
+SECURE_REFERRER_POLICY="same-origin"
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+
+CSRF_COOKIE_SECURE=True
+
+SECURE_HSTS_PRELOAD=True
+
+APPEND_SLASH=True
+
+PREPEND_WWW=False
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["rohrbach.koopkauf.de",
+		 "localhost",
+		 "127.0.0.1",
+		 "217.160.173.91"]
+
+SECURE_HSTS_SECONDS=60
 
 
 # Application definition
@@ -47,7 +65,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+#    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,7 +93,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'shoppinglist.wsgi.application'
+#WSGI_APPLICATION = 'shoppinglist.wsgi.application'
 ASGI_APPLICATION = 'shoppinglist.routing.application'
 
 CHANNEL_LAYERS = {
@@ -86,6 +104,9 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+with open('/home/koopkauf_r/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 SASS_PROCESSOR_ROOT = os.path.abspath(os.path.join(BASE_DIR, "shoppinglist", "static"))
 
@@ -152,10 +173,18 @@ USER_AGENTS_CACHE = 'default'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="info@koopkauf.de"
+with open('/home/koopkauf_r/mail_password.txt') as f:
+    EMAIL_HOST_PASSWORD = f.read().strip()
+EMAIL_HOST="smtp.ionos.de"
+EMAIL_PORT=587
 
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+print("STATIC_ROOT=", STATIC_ROOT)

@@ -24,14 +24,17 @@ class ShoppingListState(Enum):   # A subclass of Enum
 
 class User(AbstractUser):
     # add additional fields in here
+    username = models.CharField(max_length=100)
     number = models.CharField(blank=True, default='', max_length=30)
-    name = models.CharField(max_length=100)
-    USERNAME_FIELD = 'email'
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField(_('email address'), unique=True)
     address = models.TextField()
-    REQUIRED_FIELDS = ['username', 'number']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username', 'number']
+    USERNAME_FIELD = 'email'
     def __str__(self):
         return self.email
+
 
 class Store(models.Model):
     name = models.CharField(max_length=100)

@@ -10,15 +10,14 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'number')
+        fields = ('email', 'username', 'first_name', 'last_name', 'number')
 
 
 class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'number']
-        field_classes = {'username': UsernameField}
+        fields = ['first_name', 'last_name', 'username', 'email', 'number']
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -31,7 +30,7 @@ class UserRegistrationForm(RegistrationForm):
 
     class Meta(RegistrationForm.Meta):
         model = User
-        fields = ['first_name', 'last_name', 'email', 'number']
+        fields = ['first_name', 'last_name', 'username', 'email', 'number']
 
 class ShoppingForm(forms.ModelForm):
 

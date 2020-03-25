@@ -121,11 +121,6 @@ DATABASES = {
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7
-# DEFAULT_FROM_EMAIL = "newtestmail@web.de"
-# EMAIL_USE_SSL = True
-# EMAIL_HOST_USER = 'newtestmail'
-# EMAIL_HOST = 'web.de'
-# EMAIL_HOST_PASSWORD = 'testtest1'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 

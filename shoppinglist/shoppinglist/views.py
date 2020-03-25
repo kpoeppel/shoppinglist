@@ -270,8 +270,6 @@ def order_view(request, order_id):
 
 def order_state_view(request, order_id):
     order = get_object_or_404(ShoppingList, id=int(order_id))
-    if order.state != 'ShoppingListState.Creation':
-        return HttpResponseNotFound("Page not found")
     if request.method == 'POST':
         order.state = ShoppingListState.Ordered
         return HttpResponseRedirect('')
@@ -323,6 +321,7 @@ class register_view(RegistrationView):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
+            print("Adding new user")
             self.create_inactive_user(form)
             return HttpResponseRedirect('complete')
         return render(request, self.template_name, {'form': form})

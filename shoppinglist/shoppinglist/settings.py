@@ -20,22 +20,6 @@ print("BASE_DIR=", BASE_DIR)
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True
 
-SESSION_COOKIE_SECURE=True
-
-SECURE_SSL_REDIRECT=True
-
-SECURE_REFERRER_POLICY="same-origin"
-
-SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-
-CSRF_COOKIE_SECURE=True
-
-SECURE_HSTS_PRELOAD=True
-
-APPEND_SLASH=True
-
-PREPEND_WWW=False
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -46,6 +30,7 @@ ALLOWED_HOSTS = ["rohrbach.koopkauf.de",
 
 SECURE_HSTS_SECONDS=60
 
+SECRET_KEY = 'gasjopboawjkop325ko23pkao3prka2oprkaopgaopa2k2op'
 
 # Application definition
 

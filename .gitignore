@@ -1,0 +1,3 @@
+shoppinglist/static/*
+shoppinglist/shoppinglist/__pycache__/*
+shoppinglist/db.sqlite3

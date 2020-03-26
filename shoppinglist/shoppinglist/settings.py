@@ -20,24 +20,8 @@ print("BASE_DIR=", BASE_DIR)
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True
 
-SESSION_COOKIE_SECURE=True
-
-SECURE_SSL_REDIRECT=True
-
-SECURE_REFERRER_POLICY="same-origin"
-
-SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-
-CSRF_COOKIE_SECURE=True
-
-SECURE_HSTS_PRELOAD=True
-
-APPEND_SLASH=True
-
-PREPEND_WWW=False
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["rohrbach.koopkauf.de",
 		 "localhost",
@@ -46,6 +30,7 @@ ALLOWED_HOSTS = ["rohrbach.koopkauf.de",
 
 SECURE_HSTS_SECONDS=60
 
+SECRET_KEY = 'gasjopboawjkop325ko23pkao3prka2oprkaopgaopa2k2op'
 
 # Application definition
 
@@ -105,8 +90,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-with open('/home/koopkauf_r/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
 
 SASS_PROCESSOR_ROOT = os.path.abspath(os.path.join(BASE_DIR, "shoppinglist", "static"))
 
@@ -168,15 +151,15 @@ USER_AGENTS_CACHE = 'default'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-#EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER="info@koopkauf.de"
-with open('/home/koopkauf_r/mail_password.txt') as f:
-    EMAIL_HOST_PASSWORD = f.read().strip()
-EMAIL_HOST="smtp.ionos.de"
-EMAIL_PORT=587
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+#EMAIL_USE_TLS=True
+#EMAIL_HOST_USER="info@koopkauf.de"
+#with open('/home/koopkauf_r/mail_password.txt') as f:
+#    EMAIL_HOST_PASSWORD = f.read().strip()
+#EMAIL_HOST="smtp.ionos.de"
+#EMAIL_PORT=587
 
 STATIC_URL = '/static/'
 

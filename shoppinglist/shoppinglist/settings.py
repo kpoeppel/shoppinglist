@@ -130,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'shoppinglist.User'
 
+LOGIN_REDIRECT_URL = '/work'
+
 TIMESLOTS = ["8-12", "14-18", "18-20"]
 
 LANGUAGE_CODE = 'de-de'

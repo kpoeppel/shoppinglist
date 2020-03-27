@@ -17,11 +17,9 @@ defaultplan = [{"date": (datetime.datetime.today()+datetime.timedelta(i)).date()
 class ShoppingListState(Enum):   # A subclass of Enum
     Creation = "Creation"
     Ordered = "Ordered"
-    Picked = "Picked"
     Delivering = "Delivering"
     Delivered = "Delivered"
-    Paid = "Paid?"
-
+    
 class User(AbstractUser):
     # add additional fields in here
     username = models.CharField(max_length=100)

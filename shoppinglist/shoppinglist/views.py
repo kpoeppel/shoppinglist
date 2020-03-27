@@ -87,149 +87,66 @@ def shoppinglist_view(request):
         return render(request, "shoppinglist.html", {'form': form, 'stores': stores})
 
 def work_view(request):
-    if request.method == 'POST':
-        print(request.POST['choice_field'])
-        store_id = request.POST['choice_field']
-        return HttpResponseRedirect('/pickup-store-'+store_id)
-    else:
-        stores = Store.objects.all()
-        form = SelectForm()
-        print(form.__dict__)
-        form.fields["choice_field"].choices = [(store.id, store.name) for store in stores]
-        return render(request, "work.html", {'form': form})
+    return render(request, "work.html", {})
 
-def pickup_store_view(request, store_id):
-    if request.method == 'POST':
-        id = int(request.POST.get("id", ""))
-        print("ID", id, request.POST)
-        shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-        print(shoppinglist)
-        shopping_items = json.loads(shoppinglist.items)
-        for its in shopping_items:
-            if its['store_id'] == store_id:
-                its['picked'] = True
-        all_picked = True
-        for its in shopping_items:
-            if 'picked' not in its or its['picked'] == False:
-                all_picked = False
-        if all_picked == True:
-            shoppinglist.state = ShoppingListState.Picked
-        shoppinglist.items = json.dumps(shopping_items)
-        shoppinglist.save()
-        return HttpResponseRedirect('')
-    else:
-        store = get_object_or_404(Store, id=store_id)
-        shoppinglists = ShoppingList.objects.all()
-        shop_items = []
-        for shoppinglist in shoppinglists:
-            shopping_list_parts = json.loads(shoppinglist.items)
-            for shopping_list_part in shopping_list_parts:
-                if shopping_list_part['store_id'] == store_id:
-                    if 'picked' not in shopping_list_part or shopping_list_part['picked'] == False:
-                        shop_items.append({"id": shoppinglist.id, "items": shopping_list_part['items']})
-        return render(request, "pickupstore.html", {'store': store, 'shop_items': shop_items})
-
-def deliverfrom_store_view(request, store_id):
-    if request.method == 'POST':
-        id = request.POST.get("id", "")
-        print("ID", id)
-        if 'back-' in id:
-            id = int(id[5:])
-            shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-            shopping_items = json.loads(shoppinglist.items)
-            for its in shopping_items:
-                if its['store_id'] == store_id:
-                    its['picked'] = False
-            shoppinglist.state = ShoppingListState.Ordered
-            shoppinglist.items = json.dumps(shopping_items)
-            shoppinglist.save()
-        else:
-            id = int(id)
-            shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-            shopping_items = json.loads(shoppinglist.items)
-            for its in shopping_items:
-                if its['store_id'] == store_id:
-                    its['delivering'] = True
-            shoppinglist.state = ShoppingListState.Delivering
-            shoppinglist.items = json.dumps(shopping_items)
-            shoppinglist.save()
-        return HttpResponseRedirect('')
-    else:
-        store = get_object_or_404(Store, id=store_id)
-        shoppinglists = ShoppingList.objects.filter()
-        shop_items = []
-        for shoppinglist in shoppinglists:
-            shopping_list_parts = json.loads(shoppinglist.items)
-            for shopping_list_part in shopping_list_parts:
-                if shopping_list_part['store_id'] == store_id:
-                    if 'picked' in shopping_list_part and shopping_list_part['picked'] == True \
-                        and ('delivering' not in shopping_list_part or shopping_list_part['delivering'] == False):
-                        shop_items.append({"id": shoppinglist.id, "items": shopping_list_part['items']})
-        return render(request, "deliverfromstore.html", {'store': store, 'shop_items': shop_items})
-
-def deliver_view(request):
+def takeover_view(request):
     user = request.user
     if user.is_authenticated:
         if request.method == 'POST':
-            id = request.POST.get("id", "")
-            if 'back-' in id:
-                id = int(id[5:])
-                shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-                shoppinglist.state = ShoppingListState.Picked
-                shoppinglist.save()
-            else:
-                id = int(id)
-                shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-                shoppinglist.state = ShoppingListState.Delivering
-                Delivery(user=user, shoppinglist=shoppinglist).save()
-                shoppinglist.save()
+            id = int(request.POST.get("id", ""))
+            shoppinglist = get_object_or_404(ShoppingList, id=int(id))
+            shoppinglist.state = ShoppingListState.Delivering
+            Delivery(user=user, shoppinglist=shoppinglist).save()
+            shoppinglist.save()
             return HttpResponseRedirect('')
         else:
-            shoppinglists = ShoppingList.objects.filter(state="ShoppingListState.Picked")
-            shoppinglists = [{"id": shoppinglist.id,           \
-                                   "name": shoppinglist.name,          \
-                                   "number": shoppinglist.number,       \
-                                   "address": shoppinglist.address,     \
-                                   "shops": json.dumps(shoppinglist.items)}    \
-                                  for shoppinglist in shoppinglists]
-            return render(request, "deliver.html", {'user': user, 'shoppinglists': shoppinglists})
+            shoppinglists = ShoppingList.objects.filter(state="ShoppingListState.Ordered")
+            itemlists = []
+            for sl in shoppinglists:
+                itemlist = ""
+                stores = json.loads(sl.items)
+                for store in stores:
+                    itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
+                itemlists += itemlist
+            orders = list(zip(shoppinglists, itemlists))
+            return render(request, "takeover.html", {'orders': orders})
     else:
-        return render(request, "deliver.html", {'user': user})
+        return render(request, "takeover.html", {})
 
-def delivering_view(request):
+def taken_view(request):
     user = request.user
     if user.is_authenticated:
         if request.method == 'POST':
             id = request.POST.get("id", "")
+            print("ID", id)
             if 'back-' in id:
                 id = int(id[5:])
                 shoppinglist = get_object_or_404(ShoppingList, id=int(id))
-                shoppinglist.state = ShoppingListState.Picked
+                shoppinglist.state = ShoppingListState.Ordered
                 shoppinglist.save()
-                deliveries = Delivery.objects.all()
-                delivery = [delivery for delivery in deliveries if delivery.shoppinglist.id == id]
-                if delivery:
-                    print("Delivery delete")
-                    delivery[0].delete()
+                deliveries = Delivery.objects.filter(shoppinglist=shoppinglist)
+                for delivery in deliveries:
+                    delivery.delete()
             else:
                 id = int(id)
                 shoppinglist = get_object_or_404(ShoppingList, id=int(id))
                 shoppinglist.state = ShoppingListState.Delivered
-                Delivery(user=user, shoppinglist=shoppinglist).save()
                 shoppinglist.save()
             return HttpResponseRedirect('')
         else:
-            deliveries = Delivery.objects.all()
-            shoppinglists = set([delivery.shoppinglist for delivery in deliveries if delivery.user.id == user.id and delivery.shoppinglist.state == "ShoppingListState.Delivering"])
-            shoppinglists = [{"id": shoppinglist.id,           \
-                                   "name": shoppinglist.name,          \
-                                   "number": shoppinglist.number,       \
-                                   "address": shoppinglist.address,     \
-                                   "shops": json.loads(shoppinglist.items)}    \
-                                  for shoppinglist in shoppinglists]
-            return render(request, "delivering.html", {'user': user, 'shoppinglists': shoppinglists})
+            deliveries = Delivery.objects.filter(user=user)
+            shoppinglists = [delivery.shoppinglist for delivery in deliveries if delivery.shoppinglist.state == 'ShoppingListState.Delivering']
+            itemlists = []
+            for sl in shoppinglists:
+                itemlist = ""
+                stores = json.loads(sl.items)
+                for store in stores:
+                    itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
+                itemlists += itemlist
+            orders = list(zip(shoppinglists, itemlists))
+            return render(request, "taken.html", {'user': user, 'orders': orders})
     else:
-        return render(request, "delivering.html", {'user': user})
+        return render(request, "taken.html", {'user': user})
 
 def delivered_view(request):
     user = request.user
@@ -238,17 +155,22 @@ def delivered_view(request):
             id = int(request.POST.get("id", ""))
             shoppinglist = get_object_or_404(ShoppingList, id=int(id))
             shoppinglist.state = ShoppingListState.Delivering
+            delivery = Delivery.objects.filter(shoppinglist=shoppinglist)
+            if not delivery:
+                Delivery(user=user, shoppinglist=shoppinglist).save()
             shoppinglist.save()
             return HttpResponseRedirect('')
         else:
             shoppinglists = ShoppingList.objects.filter(state='ShoppingListState.Delivered')
-            shoppinglists = [{"id": shoppinglist.id,           \
-                                   "name": shoppinglist.name,          \
-                                   "number": shoppinglist.number,       \
-                                   "address": shoppinglist.address,     \
-                                   "shops": json.loads(shoppinglist.items)}    \
-                                  for shoppinglist in shoppinglists]
-            return render(request, "delivered.html", {'user': user, 'shoppinglists': shoppinglists})
+            itemlists = []
+            for sl in shoppinglists:
+                itemlist = ""
+                stores = json.loads(sl.items)
+                for store in stores:
+                    itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
+                itemlists += itemlist
+            orders = list(zip(shoppinglists, itemlists))
+            return render(request, "delivered.html", {'user': user, 'orders': orders})
     else:
         return render(request, "delivered.html", {'user': user})
 
@@ -259,7 +181,7 @@ def order_view(request, order_id):
         return HttpResponseNotFound("Page not found")
     if request.method == 'POST':
         order.state = ShoppingListState.Ordered
-        print("ID:", order_id)
+        order.save()
         return HttpResponseRedirect('orderstate-'+str(order_id))
     else:
         itemlist = ""
@@ -279,7 +201,6 @@ def order_state_view(request, order_id):
         for store in stores:
             itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
         return render(request, "order-state.html", {'shoppinglist': order, 'items': itemlist})
-
 
 def media_view(request):
     if request.method == "POST":
@@ -370,14 +291,17 @@ def profile_view(request):
                 print(User.objects.filter(email=newuser.email), user.email)
                 if user.email == newuser.email or not User.objects.filter(email=newuser.email):
                     newuser.save()
+                    messages.add_message(request,
+                                         messages.ERROR,
+                                         _('Profil gespeichert.'))
                 else:
                     messages.add_message(request,
                                          messages.ERROR,
-                                         _('Email already used.'))
+                                         _('Email schon verwendet.'))
             else:
                 messages.add_message(request,
                                      messages.ERROR,
-                                     _('Bad input.'))
+                                     _('Ungültige Eingabe.'))
             return HttpResponseRedirect('')
 
         # if a GET (or any other method) we'll create a blank form

@@ -6,22 +6,14 @@
 {% block main %}
 
 {% if user.is_authenticated %}
-<h2>Aufgaben <h3>
+<h2>Bestellungsübersicht<h3>
 
 <div style="margin-top: 20px">
-<form id="shoppingform" action="" method="post">
-  {% csrf_token %}
-  <a onhover="" onclick="document.getElementById('shoppingform').submit()">Einkäufe zusammenstellen</a>
-  {{ form.as_p }}
-</form>
+  <a href="/takeover">Bestellungen Annehmen</a>
 </div>
 
 <div style="margin-top: 20px">
-<a href="/deliver">Bestellungen Ausliefern</a>
-</div>
-
-<div style="margin-top: 20px">
-<a href="/delivering">Meine Bestellungen</a>
+<a href="/taken">Meine Bestellungen</a>
 </div>
 
 <div style="margin-top: 20px">

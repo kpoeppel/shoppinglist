@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}KoopKauf{% endblock %}
+
+{% block main %}
+
+<h3>Ihre Bestellungen</h3>
+
+{% for order in orders %}
+<div style="border:1px solid black; width=188%">
+<form id="form-{{ order.0.id }}" class="listelem" action="" method="post">
+    {% csrf_token %}
+    <label style="font-weight:bold;" for="id">Bestellnummer:</label>
+    <div id="id">{{ order.0.id }}</div>
+    <br>
+
+  <label for="name">Name:</label>
+  <div id="name">{{ order.0.name }}</div>
+  <br>
+  <label for="address">Adresse:</label>
+  <div id="name">{{ order.0.address }}</div>
+  <br>
+  <label for="number">Telefonnummer:</label>
+  <div>{{ order.0.number }}</div>
+  <br>
+  <label for="items">Liste:</label>
+  <div id='items'>
+   {{ order.1 }}
+   </div>
+   <br>
+  <input type="hidden" id="resp-{{ order.0.id }}" name="id" value="{{ order.0.id }}">
+  <input type="button" value="Zurückgeben" onclick="document.getElementById('resp-{{ order.0.id }}').value = 'back-{{ order.0.id }}'; document.getElementById('form-{{ order.0.id }}').submit();">
+  <input type="submit" value="Abgeliefert!">
+</form>
+</div>
+{% endfor %}
+
+{% endblock %}

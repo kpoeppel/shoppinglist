@@ -6,37 +6,40 @@
 
 {% block main %}
 
-<h3>Gelieferte Bestellungen</h3>
+<h3>Offene Bestellungen</h3>
 
-{% for order, items in orders %}
+
+
+{% for order in orders %}
+
+
 <div style="border:1px solid black;">
-<form id="form-{{ order.id }}" class="listelem" action="" method="post">
+<form id="form-{{ order.0.id }}" class="listelem" action="" method="post">
     {% csrf_token %}
     <label style="font-weight:bold;" for="id">Bestellnummer:</label>
-    <div id="id">{{ order.id }}</div>
+    <div id="id">{{ order.0.id }}</div>
     <br>
 
   <label for="name">Name:</label>
-  <div id="name">{{ order.name }}</div>
+  <div id="name">{{ order.0.name }}</div>
   <br>
   <label for="address">Adresse:</label>
-  <div id="name">{{ order.address }}</div>
+  <div id="name">{{ order.0.address }}</div>
   <br>
   <label for="number">Telefonnummer:</label>
-  <div>{{ order.number }}</div>
+  <div>{{ order.0.number }}</div>
   <br>
   <label for="items">Liste:</label>
   <div id='items'>
-   {{ items }}
+   {{ order.1 }}
    </div>
    <br>
-   <br>
-  <input type="hidden" id="resp-{{ order.id }}" name="id" value="{{ order.id }}">
-  <input type="submit" value="Als ungeliefert markieren">
+  <input type="hidden" id="resp-{{ order.0.id }}" name="id" value="{{ order.0.id }}">
+  <input type="submit" value="Übernehmen">
 </form>
-
 
 </div>
 {% endfor %}
+<a href='/taken'>Meine Lieferungen</a>
 
 {% endblock %}

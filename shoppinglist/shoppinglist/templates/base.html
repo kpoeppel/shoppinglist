@@ -65,6 +65,9 @@
 
         <main>
             {% block main %}{% endblock %}
+            {% if messages %} {% for message in messages %}
+      {{ message }}
+        {% endfor %} {% endif %}
         </main>
       </div>
       <footer>

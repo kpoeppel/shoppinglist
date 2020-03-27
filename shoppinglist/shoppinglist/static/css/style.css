@@ -76,6 +76,8 @@ nav {
         font-size: 1.5em;
         background-color: #45a049; }
 
+
+
 main {
   padding: 2rem 3rem;
   font-size: 1.3em; }
@@ -161,6 +163,8 @@ p, li {
        text-align: left;
        width: 120px;
 }
+
+
 
 .order div {
      margin-top: 5px;
@@ -317,6 +321,12 @@ p, li {
        vertical-align:center;
        margin-left:20px
    }
+
+.shoppinglist {
+  background-color:#DDDDDD;
+  white-space: pre-line;
+  width: 90%;
+}
 
 .home-grid h2 {
   text-align: center; }

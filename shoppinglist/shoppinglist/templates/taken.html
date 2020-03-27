@@ -8,30 +8,29 @@
 
 <h3>Ihre Bestellungen</h3>
 
-{% for order in orders %}
+{% for order, items in orders %}
 <div style="border:1px solid black; width=188%">
-<form id="form-{{ order.0.id }}" class="listelem" action="" method="post">
+<form id="form-{{ order.id }}" class="listelem" action="" method="post">
     {% csrf_token %}
     <label style="font-weight:bold;" for="id">Bestellnummer:</label>
-    <div id="id">{{ order.0.id }}</div>
+    <div id="id">{{ order.id }}</div>
     <br>
 
   <label for="name">Name:</label>
-  <div id="name">{{ order.0.name }}</div>
+  <div id="name">{{ order.name }}</div>
   <br>
   <label for="address">Adresse:</label>
-  <div id="name">{{ order.0.address }}</div>
+  <div id="name">{{ order.address }}</div>
   <br>
   <label for="number">Telefonnummer:</label>
-  <div>{{ order.0.number }}</div>
+  <div>{{ order.number }}</div>
   <br>
   <label for="items">Liste:</label>
-  <div id='items'>
-   {{ order.1 }}
+  <div class='shoppinglist' id='items'>{{ items }}
    </div>
    <br>
-  <input type="hidden" id="resp-{{ order.0.id }}" name="id" value="{{ order.0.id }}">
-  <input type="button" value="Zurückgeben" onclick="document.getElementById('resp-{{ order.0.id }}').value = 'back-{{ order.0.id }}'; document.getElementById('form-{{ order.0.id }}').submit();">
+  <input type="hidden" id="resp-{{ order.id }}" name="id" value="{{ order.id }}">
+  <input type="button" value="Zurückgeben" onclick="document.getElementById('resp-{{ order.id }}').value = 'back-{{ order.id }}'; document.getElementById('form-{{ order.id }}').submit();">
   <input type="submit" value="Abgeliefert!">
 </form>
 </div>

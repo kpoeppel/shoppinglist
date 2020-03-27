@@ -107,7 +107,7 @@ def takeover_view(request):
                 stores = json.loads(sl.items)
                 for store in stores:
                     itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
-                itemlists += itemlist
+                itemlists += [itemlist]
             orders = list(zip(shoppinglists, itemlists))
             return render(request, "takeover.html", {'orders': orders})
     else:
@@ -142,7 +142,7 @@ def taken_view(request):
                 stores = json.loads(sl.items)
                 for store in stores:
                     itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
-                itemlists += itemlist
+                itemlists += [itemlist]
             orders = list(zip(shoppinglists, itemlists))
             return render(request, "taken.html", {'user': user, 'orders': orders})
     else:
@@ -168,7 +168,7 @@ def delivered_view(request):
                 stores = json.loads(sl.items)
                 for store in stores:
                     itemlist += store['store_name'] + ":\n" + store['items'] + "\n\n"
-                itemlists += itemlist
+                itemlists += [itemlist]
             orders = list(zip(shoppinglists, itemlists))
             return render(request, "delivered.html", {'user': user, 'orders': orders})
     else:
